@@ -6,9 +6,16 @@ import time
 import fileIO
 import character
 import methods
+from pygame import *
 
 
 def main():
+    init()
+
+    win = display.set_mode((640,480))
+    display.set_caption("Ninja Fight")
+
+    
     #########################################
     #变量定义
     #角色名字字典
@@ -100,3 +107,9 @@ def main():
             flag_lgc = int(raw_input("Please input :"))
         except:
             pass
+
+    quit()
+
+
+if __name__ == '__main__':
+    main()
