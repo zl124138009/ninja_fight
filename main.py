@@ -7,7 +7,6 @@ import fileIO
 import character
 import methods
 
-Font = None
 
 def main():  
     #########################################
