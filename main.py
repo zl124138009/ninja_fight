@@ -6,7 +6,6 @@ import time
 import fileIO
 import character
 import methods
-from pygame import *
 
 Font = None
 
