@@ -8,14 +8,9 @@ import character
 import methods
 from pygame import *
 
+Font = None
 
-def main():
-    init()
-
-    win = display.set_mode((640,480))
-    display.set_caption("Ninja Fight")
-
-    
+def main():  
     #########################################
     #变量定义
     #角色名字字典
@@ -108,8 +103,3 @@ def main():
         except:
             pass
 
-    quit()
-
-
-if __name__ == '__main__':
-    main()
