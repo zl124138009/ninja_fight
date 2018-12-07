@@ -32,8 +32,7 @@ def drawdata(win, names, ninja, tsu, seq):
     Font1 = font.Font("C:/Windows/Fonts/simsun.ttc",16)
     Font2 = font.Font("C:/Windows/Fonts/simhei.ttf",20)
     color1 = 255, 255, 255
-    print names[ninja[seq].name]
-    showtext(win, (120,5), names[ninja[seq].name], Font2, color1, None)
+    showtext(win, (120,5), names[ninja[seq].name].decode("UTF-8"), Font2, color1, None)
     showtext(win, (145,40), str(ninja[seq].ren), Font1, color1, None)
     showtext(win, (225,40), str(ninja[seq].ti), Font1, color1, None)
     showtext(win, (305,40), str(ninja[seq].huan), Font1, color1, None)
