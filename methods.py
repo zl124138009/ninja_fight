@@ -172,7 +172,7 @@ def show_atk(name,ch,main,enemy,flag,atk,lstsu,su):
         result = methods.calc_atk(ch,main,enemy,atk,lstsu,su)
         enemy[1] = enemy[1] - result
         print name[ch[main[0]].name].decode('UTF-8'),\
-              "used",su[lstsu[atk].name].decode('UTF-8'),\
+              "used",su[str(lstsu[atk].name)].decode('UTF-8'),\
               "to attack",name[ch[enemy[0]].name].decode('UTF-8')+",",\
               "caused",result,"damages"
         return enemy
@@ -180,7 +180,7 @@ def show_atk(name,ch,main,enemy,flag,atk,lstsu,su):
         result = methods.calc_atk(ch,enemy,main,atk,lstsu,su)
         main[1] = main[1] - result
         print name[ch[enemy[0]].name].decode('UTF-8'),\
-              "used",su[lstsu[atk].name].decode('UTF-8'),\
+              "used",su[str(lstsu[atk].name)].decode('UTF-8'),\
               "to attack",name[ch[main[0]].name].decode('UTF-8')+",",\
               "caused",result,"damages"
         return main

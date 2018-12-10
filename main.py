@@ -6,12 +6,14 @@ import time
 import fileIO
 import character
 import methods
+import gui
 
 
 def main():  
     #########################################
     #变量定义
     #角色名字字典
+    '''
     name = {"zly":"自来也","yzby":"宇智波鼬","dsw":"大蛇丸","gs":"纲手",
         "qmkkx":"旗木卡卡西","xie":"蝎","yfrz":"猿飞日斩","gsgj":"干柿鬼鲛",
         "yfasm":"猿飞阿斯玛","jd":"角都","ddl":"迪达拉","ysd":"药师兜",
@@ -20,9 +22,16 @@ def main():
         "rxnc":"日向宁次","kjl":"勘九郎","xwmr":"漩涡鸣人","cyy":"春野樱",
         "sj":"手鞠","nllw":"奈良鹿丸","qzy":"犬冢牙","rxct":"日向雏田",
         "lkl":"洛克李","ynzn":"油女志乃","szjy":"山中井野","tt":"天天",
-        "qddc":"秋道丁次"}    
+        "qddc":"秋道丁次"}
+    '''
+    name = {}
+    name = gui.getName()
+    
     #忍术名字字典
-    tsu = {101:"拳头",102:"手里剑",201:"豪火球",301:"月读"}
+    #tsu = {101:"拳头",102:"手里剑",201:"豪火球",301:"月读"}
+    tsu = {}
+    tsu = gui.getTsu_name()
+
     list_ch = []   #角色数组,元素为ninja类
     list_tsu = []  #忍术数组,元素为ninjutsu类
     main_ch = []    #所选角色数组
@@ -101,3 +110,7 @@ def main():
         except:
             pass
 
+
+if __name__ == '__main__':
+    import main
+    main.main()
