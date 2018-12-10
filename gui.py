@@ -10,11 +10,12 @@ names = {}#忍者名字典
 ninja = []#忍者列表
 tsu_names = {}#忍术名字典
 tsu = []#忍术列表
+ninja_tsu = []#忍者对应的忍术
 
 def showtext(win, pos, text, Font, color, bgcolor):#文字转化
     textimg = Font.render(text, 1, color, bgcolor)
     win.blit(textimg, pos)
-    return pos[0] + textimg.get_width() + 5, pos[1]
+    return pos[0] + textimg.get_width() + 20, pos[1]
 
 def drawbg(win):#画背景及固定文字
     bgcolor1 = 50, 50, 50
@@ -51,13 +52,14 @@ def drawbg(win):#画背景及固定文字
     showtext(win, (280, 425), "精:".decode("UTF-8"), Font1, color1, None)
     showtext(win, (360, 425), "印:".decode("UTF-8"), Font1, color1, None)
 
-def drawdata(win, roles, names, ninja, tsu):#画动态数据   
+def drawdata(win, roles, names, ninja, tsu_names, tsu):#画动态数据   
     Font1 = font.Font("C:/Windows/Fonts/simsun.ttc",16)
     Font2 = font.Font("C:/Windows/Fonts/simhei.ttf",20)
     Font3 = font.Font("C:/Windows/Fonts/simhei.ttf",16)
     color1 = 255, 255, 255
-    color2 = 255, 50, 50
+    color2 = 250, 50, 50
     color3 = 50, 50, 250
+    bgcolor1 = 100, 200, 100
 
     drawbg(win)
 
@@ -72,6 +74,9 @@ def drawdata(win, roles, names, ninja, tsu):#画动态数据
     showtext(win, (225, 65), str(ninja[roles[0][0]].su), Font1, color1, None)
     showtext(win, (305, 65), str(ninja[roles[0][0]].jing), Font1, color1, None)
     showtext(win, (385, 65), str(ninja[roles[0][0]].yin), Font1, color1, None)
+    pos1 = 120, 90
+    for i in range(len(roles[0]) - 4):
+        pos1 = showtext(win, pos1, str(i + 1) + "." + tsu_names[roles[0][i + 4]].decode("UTF-8"), Font3, color3, bgcolor1)
 
     showtext(win, (120, 367), names[roles[1][1]].decode("UTF-8"), Font2, color1, None)
     showtext(win, (280, 369), str(roles[1][2]), Font3, color2, None)
@@ -84,6 +89,10 @@ def drawdata(win, roles, names, ninja, tsu):#画动态数据
     showtext(win, (225, 425), str(ninja[roles[1][0]].su), Font1, color1, None)
     showtext(win, (305, 425), str(ninja[roles[1][0]].jing), Font1, color1, None)
     showtext(win, (385, 425), str(ninja[roles[1][0]].yin), Font1, color1, None)
+    pos2 = 120, 450
+    for i in range(len(roles[1]) - 4):
+        pos2 = showtext(win, pos2, str(i + 5) + "." + tsu_names[roles[1][i + 4]].decode("UTF-8"), Font3, color3, bgcolor1)
+
 
 def drawfight(win, history, text):#画实时数据
     ypos = 330
@@ -111,10 +120,21 @@ def drawfight(win, history, text):#画实时数据
             ypos -= Font1.get_height()
     return history
 
-def getRoles(ninja, seq1, seq2):#选择角色
+def getRoles(ninja, ninja_tsu, seq1, seq2):#选择角色
     roles = []
+    
     roles.append([seq1, ninja[seq1].name, methods.calc_HP(ninja, seq1), methods.calc_MP(ninja, seq1)])
+    for i in range(len(ninja_tsu)):
+        if ninja_tsu[i][0] == ninja[seq1].name:
+            for j in range(len(ninja_tsu[i]) - 1):
+                roles[0].append(ninja_tsu[i][j + 1])
+
     roles.append([seq2, ninja[seq2].name, methods.calc_HP(ninja, seq2), methods.calc_MP(ninja, seq2)])
+    for i in range(len(ninja_tsu)):
+        if ninja_tsu[i][0] == ninja[seq2].name:
+            for j in range(len(ninja_tsu[i]) - 1):
+                roles[1].append(ninja_tsu[i][j + 1])
+
     return roles
 
 def getNinja():#获取忍者列表
@@ -130,11 +150,11 @@ def getNinja():#获取忍者列表
 
 def getNinjutsu():#获取忍术列表
     list_tsu = []
-    nins = fileIO.readList(".\\ninjutsu.data")
+    data = fileIO.readList(".\\ninjutsu.data")
 
-    for i in range(len(nins)):
-        tmp = character.ninjutsu(nins[i][0],nins[i][1],nins[i][2],nins[i][3],
-                                nins[i][4],nins[i][5],nins[i][6],nins[i][7])
+    for i in range(len(data)):
+        tmp = character.ninjutsu(data[i][0],data[i][1],data[i][2],data[i][3],
+                                data[i][4],data[i][5],data[i][6],data[i][7])
         list_tsu.append(tmp)
     return list_tsu
 
@@ -144,7 +164,6 @@ def getName():#获取忍者名字
 
     for i in range(len(names)):
         dict_name[names[i][0]] = names[i][1]
-    #print dict_name
     return dict_name
 
 def getTsu_name():#获取忍术名字
@@ -153,8 +172,19 @@ def getTsu_name():#获取忍术名字
 
     for i in range(len(names)):
         dict_tsu_name[names[i][0]] = names[i][1]
-    #print dict_tsu_name
     return dict_tsu_name
+
+def getNinja_tsu():#获取忍者对应忍术列表
+    ninja_tsu = []
+    tmp = []
+    data = fileIO.readList(".\\ninja-tsu.data")
+
+    for i in range(len(data)):
+        for j in range(len(data[i])):
+            tmp.append(data[i][j])
+        ninja_tsu.append(tmp)
+        tmp = []
+    return ninja_tsu
 
 def main():
     init()
@@ -170,11 +200,13 @@ def main():
     tsu_names = getTsu_name()
     global tsu
     tsu = getNinjutsu()
+    global ninja_tsu
+    ninja_tsu = getNinja_tsu()
     global roles
-    roles = getRoles(ninja, methods.rd(0, len(getNinja())-1), methods.rd(0, len(getNinja())-1))
+    roles = getRoles(ninja, ninja_tsu, methods.rd(0, len(getNinja())-1), methods.rd(0, len(getNinja())-1))
     global history
 
-    drawdata(win, roles, names, ninja, tsu)
+    drawdata(win, roles, names, ninja, tsu_names, tsu)
 
     going = True
     while going:
